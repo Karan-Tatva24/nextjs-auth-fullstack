@@ -7,6 +7,8 @@ connect();
 export async function POST(request: NextRequest) {
   try {
     const userId = await getDataFromToken(request);
+    if (!userId)
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
 
     const user = await User.findById(userId).select("-password");
 
